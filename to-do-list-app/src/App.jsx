@@ -6,7 +6,7 @@ function App() {
     <div className="App">
       <div className="header">
         <h1 id="site-title">To Do List With Prioritization</h1>
-        <button> Add Task</button>
+        <button id="add-btn"> Add Task</button>
       </div>
     </div>
   );
