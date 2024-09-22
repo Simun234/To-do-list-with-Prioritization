@@ -124,6 +124,9 @@ function App() {
           </tbody>
         </table>
       </div>
+      <div className="footer">
+        <p>© 2024 Simun. All Rights Reserved.</p>
+      </div>
     </div>
   );
 }

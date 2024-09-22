@@ -81,6 +81,10 @@ body {
   color: #000;
 }
 
+.filter-list button:hover {
+  background-color: #bcbcbc;
+}
+
 /* DropDown End************************************************************************************ */
 
 .table-container {
@@ -125,6 +129,18 @@ td button {
 
 /* Table End************************************************************************************** */
 
+.footer {
+  margin-top: 20px;
+}
+
+.footer p {
+  font-family: "Montserrat", sans-serif;
+  font-size: 10px;
+  text-align: center;
+}
+
+/* Footer End************************************************************************************ */
+
 /* Media Queries******************************************************* */
 
 @media screen and (min-width: 900px) {
@@ -155,6 +171,10 @@ td button {
   td button {
     font-size: 12px;
   }
+
+  .footer p {
+    font-size: 15px;
+  }
 }
 
 @media screen and (min-width: 1200px) {
@@ -184,5 +204,9 @@ td button {
 
   td button {
     font-size: 15px;
+  }
+
+  .footer p {
+    font-size: 20px;
   }
 }
