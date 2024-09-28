@@ -1,43 +1,124 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import "./App.css";
 
 function App() {
+
+  const [tasks, setTasks] = useState([
+    { task: "Buy Groceries", dueDate: "October 5", priority: "Medium", status: "Pending" },
+    { task: "Pay Utility Bills", dueDate: "October 10", priority: "High", status: "In Progress" },
+    { task: "Book Doctor Appointment", dueDate: "October 15", priority: "Medium", status: "Completed" },
+    { task: "Exercise (Gym)", dueDate: "October 20", priority: "Low", status: "In Progress" },
+    { task: "Call Mom", dueDate: "October 22", priority: "High", status: "Pending" },
+    { task: "Clean the House", dueDate: "October 24", priority: "Low", status: "In Progress" },
+    { task: "Plan Weekend Trip", dueDate: "October 26", priority: "Medium", status: "Pending" },
+    { task: "Read 50 Pages of Book", dueDate: "October 30", priority: "Low", status: "In Progress" }
+  ]);
+
+ 
+  const [showForm, setShowForm] = useState(false);
+
+ 
+  const [newTask, setNewTask] = useState({
+    task: "",
+    dueDate: "",
+    priority: "Medium",
+    status: "Pending"
+  });
+
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewTask({ ...newTask, [name]: value });
+  };
+
+ 
+  const handleAddTask = (e) => {
+    e.preventDefault();
+    setTasks([...tasks, newTask]); 
+    setShowForm(false); 
+    setNewTask({ task: "", dueDate: "", priority: "Medium", status: "Pending" }); 
+  };
+
   return (
     <div className="App">
       <div className="header">
         <h1 id="site-title">To Do List With Prioritization</h1>
-        <button id="add-btn"> Add Task</button>
+        <button id="add-btn" onClick={() => setShowForm(!showForm)}>Add Task</button>
       </div>
+
+
+      {showForm && (
+        <form className="task-form" onSubmit={handleAddTask}>
+          <input
+            type="text"
+            name="task"
+            placeholder="Task Name"
+            value={newTask.task}
+            onChange={handleInputChange}
+            required
+          />
+          <input
+            type="text"
+            name="dueDate"
+            placeholder="Due Date"
+            value={newTask.dueDate}
+            onChange={handleInputChange}
+            required
+          />
+          <select
+            name="priority"
+            value={newTask.priority}
+            onChange={handleInputChange}
+          >
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+          </select>
+          <select
+            name="status"
+            value={newTask.status}
+            onChange={handleInputChange}
+          >
+            <option value="Pending">Pending</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Completed">Completed</option>
+          </select>
+          <button type="submit">Add Task</button>
+        </form>
+      )}
+
+
       <div className="dropdown">
         <input
           type="text"
           placeholder="Search.."
           id="myInput"
-          onkeyup="filterFunction()"
+          onKeyUp={() => console.log("Filter function to be implemented")}
         />
         <p className="filter">Filter By:</p>
         <ul className="filter-list">
           <li>
-            <button onClick="filterTasks('all')">All Tasks</button>
+            <button onClick={() => console.log("Filter All Tasks")}>All Tasks</button>
           </li>
           <li>
-            <button onClick="filterTasks('high')">High Priority</button>
+            <button onClick={() => console.log("Filter High Priority")}>High Priority</button>
           </li>
           <li>
-            <button onClick="filterTasks('medium')">Medium Priority</button>
+            <button onClick={() => console.log("Filter Medium Priority")}>Medium Priority</button>
           </li>
           <li>
-            <button onClick="filterTasks('low')">Low Priority</button>
+            <button onClick={() => console.log("Filter Low Priority")}>Low Priority</button>
           </li>
           <li>
-            <button onClick="filterTasks('completed')">Completed</button>
+            <button onClick={() => console.log("Filter Completed")}>Completed</button>
           </li>
           <li>
-            <button onClick="filterTasks('pending')">Pending</button>
+            <button onClick={() => console.log("Filter Pending")}>Pending</button>
           </li>
         </ul>
       </div>
-      <div class="table-container">
+
+      <div className="table-container">
         <table>
           <thead>
             <tr>
@@ -49,85 +130,26 @@ function App() {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Buy Groceries</td>
-              <td>October 5</td>
-              <td>Medium</td>
-              <td>Pending</td>
-              <td>
-                <button>Edit/Delete</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Pay Utility Bills</td>
-              <td>October 10</td>
-              <td>High</td>
-              <td>In Progress</td>
-              <td>
-                <button>Edit/Delete</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Book Doctor Appointment</td>
-              <td>October 15</td>
-              <td>Medium</td>
-              <td>Completed</td>
-              <td>
-                <button>Edit/Delete</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Exercise (Gym)</td>
-              <td>October 20</td>
-              <td>Low</td>
-              <td>In Progress</td>
-              <td>
-                <button>Edit/Delete</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Call Mom</td>
-              <td>October 22</td>
-              <td>High</td>
-              <td>Pending</td>
-              <td>
-                <button>Edit/Delete</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Clean the House</td>
-              <td>October 24</td>
-              <td>Low</td>
-              <td>In Progress</td>
-              <td>
-                <button>Edit/Delete</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Plan Weekend Trip</td>
-              <td>October 26</td>
-              <td>Medium</td>
-              <td>Pending</td>
-              <td>
-                <button>Edit/Delete</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Read 50 Pages of Book</td>
-              <td>October 30</td>
-              <td>Low</td>
-              <td>In Progress</td>
-              <td>
-                <button>Edit/Delete</button>
-              </td>
-            </tr>
+            {tasks.map((task, index) => (
+              <tr key={index}>
+                <td>{task.task}</td>
+                <td>{task.dueDate}</td>
+                <td>{task.priority}</td>
+                <td>{task.status}</td>
+                <td>
+                  <button>Edit/Delete</button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
+
       <div className="footer">
         <p>© 2024 Simun. All Rights Reserved.</p>
       </div>
     </div>
   );
 }
+
 export default App;
