@@ -25,6 +25,8 @@ function App() {
     status: "Pending"
   });
 
+  const [filter, setFilter] = useState('All Tasks');
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -38,6 +40,25 @@ function App() {
     setShowForm(false); 
     setNewTask({ task: "", dueDate: "", priority: "Medium", status: "Pending" }); 
   };
+
+  const filterTasks = () => {
+    switch (filter) {
+      case 'High Priority':
+        return tasks.filter(task => task.priority === 'High');
+      case 'Medium Priority':
+        return tasks.filter(task => task.priority === 'Medium');
+      case 'Low Priority':
+        return tasks.filter(task => task.priority === 'Low');
+      case 'Completed':
+        return tasks.filter(task => task.status === 'Completed');
+      case 'Pending':
+        return tasks.filter(task => task.status === 'Pending');
+      default:
+        return tasks; 
+    }
+  };
+
+  const filteredTasks = filterTasks(); 
 
   return (
     <div className="App">
@@ -88,7 +109,7 @@ function App() {
       )}
 
 
-      <div className="dropdown">
+<div className="dropdown">
         <input
           type="text"
           placeholder="Search.."
@@ -98,26 +119,25 @@ function App() {
         <p className="filter">Filter By:</p>
         <ul className="filter-list">
           <li>
-            <button onClick={() => console.log("Filter All Tasks")}>All Tasks</button>
+            <button onClick={() => setFilter('All Tasks')}>All Tasks</button>
           </li>
           <li>
-            <button onClick={() => console.log("Filter High Priority")}>High Priority</button>
+            <button onClick={() => setFilter('High Priority')}>High Priority</button>
           </li>
           <li>
-            <button onClick={() => console.log("Filter Medium Priority")}>Medium Priority</button>
+            <button onClick={() => setFilter('Medium Priority')}>Medium Priority</button>
           </li>
           <li>
-            <button onClick={() => console.log("Filter Low Priority")}>Low Priority</button>
+            <button onClick={() => setFilter('Low Priority')}>Low Priority</button>
           </li>
           <li>
-            <button onClick={() => console.log("Filter Completed")}>Completed</button>
+            <button onClick={() => setFilter('Completed')}>Completed</button>
           </li>
           <li>
-            <button onClick={() => console.log("Filter Pending")}>Pending</button>
+            <button onClick={() => setFilter('Pending')}>Pending</button>
           </li>
         </ul>
       </div>
-
       <div className="table-container">
         <table>
           <thead>
@@ -130,7 +150,7 @@ function App() {
             </tr>
           </thead>
           <tbody>
-            {tasks.map((task, index) => (
+            {filteredTasks.map((task, index) => (
               <tr key={index}>
                 <td>{task.task}</td>
                 <td>{task.dueDate}</td>
