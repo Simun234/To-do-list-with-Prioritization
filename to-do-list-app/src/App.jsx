@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "./App.css";
 
 function App() {
-
   const [tasks, setTasks] = useState([
     { task: "Buy Groceries", dueDate: "October 5", priority: "Medium", status: "Pending" },
     { task: "Pay Utility Bills", dueDate: "October 10", priority: "High", status: "In Progress" },
@@ -14,26 +13,18 @@ function App() {
     { task: "Read 50 Pages of Book", dueDate: "October 30", priority: "Low", status: "In Progress" }
   ]);
 
- 
-  const [showForm, setShowForm] = useState(false);
+  const [showForm, setShowForm] = useState(false); 
+  const [newTask, setNewTask] = useState({ task: "", dueDate: "", priority: "Medium", status: "Pending" });
+  const [filter, setFilter] = useState('All Tasks'); 
+  const [searchTerm, setSearchTerm] = useState("");
 
  
-  const [newTask, setNewTask] = useState({
-    task: "",
-    dueDate: "",
-    priority: "Medium",
-    status: "Pending"
-  });
-
-  const [filter, setFilter] = useState('All Tasks');
-
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewTask({ ...newTask, [name]: value });
   };
 
- 
+
   const handleAddTask = (e) => {
     e.preventDefault();
     setTasks([...tasks, newTask]); 
@@ -41,38 +32,60 @@ function App() {
     setNewTask({ task: "", dueDate: "", priority: "Medium", status: "Pending" }); 
   };
 
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  
   const filterTasks = () => {
+    let filteredTasks = tasks;
+
+    
     switch (filter) {
       case 'High Priority':
-        return tasks.filter(task => task.priority === 'High');
+        filteredTasks = tasks.filter(task => task.priority === 'High');
+        break;
       case 'Medium Priority':
-        return tasks.filter(task => task.priority === 'Medium');
+        filteredTasks = tasks.filter(task => task.priority === 'Medium');
+        break;
       case 'Low Priority':
-        return tasks.filter(task => task.priority === 'Low');
+        filteredTasks = tasks.filter(task => task.priority === 'Low');
+        break;
       case 'Completed':
-        return tasks.filter(task => task.status === 'Completed');
+        filteredTasks = tasks.filter(task => task.status === 'Completed');
+        break;
       case 'Pending':
-        return tasks.filter(task => task.status === 'Pending');
+        filteredTasks = tasks.filter(task => task.status === 'Pending');
+        break;
       default:
-        return tasks; 
+        filteredTasks = tasks; 
     }
+
+    
+    if (searchTerm) {
+      filteredTasks = filteredTasks.filter(task =>
+        task.task.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    return filteredTasks;
   };
 
-  const filteredTasks = filterTasks(); 
+  
+  const filteredTasks = filterTasks();
 
+  
   const handleDelete = (index) => {
-    const filteredTasks = tasks.filter((_, i) => i !== index);
-    setTasks(filteredTasks);
+    const updatedTasks = tasks.filter((_, i) => i !== index);
+    setTasks(updatedTasks); 
   };
 
-
+  
   const handleEdit = (index) => {
     const taskToEdit = tasks[index];
-    setNewTask(taskToEdit);
-    setEditIndex(index);
+    setNewTask(taskToEdit); 
     setShowForm(true); 
   };
-
 
   return (
     <div className="App">
@@ -80,7 +93,6 @@ function App() {
         <h1 id="site-title">To Do List With Prioritization</h1>
         <button id="add-btn" onClick={() => setShowForm(!showForm)}>Add Task</button>
       </div>
-
 
       {showForm && (
         <form className="task-form" onSubmit={handleAddTask}>
@@ -122,37 +134,25 @@ function App() {
         </form>
       )}
 
-
       <div className="dropdown">
         <input
           type="text"
           placeholder="Search.."
           id="myInput"
-          onKeyUp={() => console.log("Filter function to be implemented")}
+          value={searchTerm}
+          onChange={handleSearch} 
         />
         <p className="filter">Filter By:</p>
         <ul className="filter-list">
-          <li>
-            <button onClick={() => setFilter('All Tasks')}>All Tasks</button>
-          </li>
-          <li>
-            <button onClick={() => setFilter('High Priority')}>High Priority</button>
-          </li>
-          <li>
-            <button onClick={() => setFilter('Medium Priority')}>Medium Priority</button>
-          </li>
-          <li>
-            <button onClick={() => setFilter('Low Priority')}>Low Priority</button>
-          </li>
-          <li>
-            <button onClick={() => setFilter('Completed')}>Completed</button>
-          </li>
-          <li>
-            <button onClick={() => setFilter('Pending')}>Pending</button>
-          </li>
+          <li><button onClick={() => setFilter('All Tasks')}>All Tasks</button></li>
+          <li><button onClick={() => setFilter('High Priority')}>High Priority</button></li>
+          <li><button onClick={() => setFilter('Medium Priority')}>Medium Priority</button></li>
+          <li><button onClick={() => setFilter('Low Priority')}>Low Priority</button></li>
+          <li><button onClick={() => setFilter('Completed')}>Completed</button></li>
+          <li><button onClick={() => setFilter('Pending')}>Pending</button></li>
         </ul>
       </div>
-    
+
       <div className="table-container">
         <table>
           <thead>
@@ -180,7 +180,6 @@ function App() {
           </tbody>
         </table>
       </div>
-
 
       <div className="footer">
         <p>© 2024 Simun. All Rights Reserved.</p>
