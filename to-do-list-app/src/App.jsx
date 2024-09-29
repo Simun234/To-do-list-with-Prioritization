@@ -60,6 +60,20 @@ function App() {
 
   const filteredTasks = filterTasks(); 
 
+  const handleDelete = (index) => {
+    const filteredTasks = tasks.filter((_, i) => i !== index);
+    setTasks(filteredTasks);
+  };
+
+
+  const handleEdit = (index) => {
+    const taskToEdit = tasks[index];
+    setNewTask(taskToEdit);
+    setEditIndex(index);
+    setShowForm(true); 
+  };
+
+
   return (
     <div className="App">
       <div className="header">
@@ -158,7 +172,8 @@ function App() {
                 <td>{task.priority}</td>
                 <td>{task.status}</td>
                 <td>
-                  <button>Edit/Delete</button>
+                  <button onClick={() => handleEdit(index)}>Edit</button>
+                  <button onClick={() => handleDelete(index)}>Delete</button>
                 </td>
               </tr>
             ))}
