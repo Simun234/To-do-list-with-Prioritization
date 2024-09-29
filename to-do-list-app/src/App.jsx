@@ -109,7 +109,7 @@ function App() {
       )}
 
 
-<div className="dropdown">
+      <div className="dropdown">
         <input
           type="text"
           placeholder="Search.."
@@ -138,6 +138,7 @@ function App() {
           </li>
         </ul>
       </div>
+    
       <div className="table-container">
         <table>
           <thead>
@@ -164,6 +165,7 @@ function App() {
           </tbody>
         </table>
       </div>
+
 
       <div className="footer">
         <p>© 2024 Simun. All Rights Reserved.</p>
